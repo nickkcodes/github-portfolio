@@ -7,14 +7,25 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
+        <div class="loader" id="loader">
+            <div class="loader-content">
+                <p class="loader-welcome" id="loader-welcome"></p>
+                <div class="loader-text">Loading<span class="dots">...</span></div>
+                <div class="loader-bar">
+                    <div class="loader-fill" id="loader-fill"></div>
+                </div>
+                <p class="loader-percent" id="loader-percent">0%</p>
+            </div>
+        </div>
 
         <section class="hero">
             <div class="hero-content">
-                <p class="hero-greeting">Hi, I'm</p>
-                <h1 class="hero-name">Nick<span class="cursor">_</span></h1>
-                <p class="hero-title">Aspiring Software Engineer</p>
-                <p class="hero-sub">Grade 11 from the Philippines and building my skills one project at a time.</p>
-                <a href="https://github.com/nickkcodes" class="hero-btn">View My Github</a>
+                <p class="hero-greeting animate-left">Hi, I'm</p>
+                <h1 class="hero-name animate-right">
+                    <span id="typewriter"></span><span class="cursor">_</span></h1>
+                <p class="hero-title animate-bottom">Aspiring Software Engineer</p>
+                <p class="hero-sub animate-bottom">Grade 11 from the Philippines and building my skills one project at a time.</p>
+                <a href="https://github.com/nickkcodes" class="hero-btn animate-bottom">View My Github</a>
             </div>
         </section>
 

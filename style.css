@@ -20,8 +20,8 @@ body {
 
 .hero-greeting {
     color: #7F77DD;
-    font-size: 18px;
-    margin-bottom: 10px;
+    font-size: 30px;
+    margin-bottom: -10px;
 }
 
 .hero-name {
@@ -66,4 +66,106 @@ body {
 @keyframes blink {
     0%, 100% {opacity: 1; }
     50% {opacity: 0; }
+}
+
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse 600px 500px at 50% 35%, #1b1632 0%, #0a0a0a 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 1s ease;
+}
+
+.loader-text {
+    color: #7F77DD;
+    font-size: 24px;
+    letter-spacing: 4px;
+}
+
+.loader.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.dots { 
+    animation: dotting 1.5s infinite;
+}
+
+@keyframes dotting {
+    0% { content: '.';}
+    33% { content: '..';}
+    66% { content: '...';}
+    100% { content: '';}
+}
+
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.loader-welcome {
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    background: linear-gradient(to right, #444, #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.loader-bar {
+    width: 200px;
+    height: 15px;
+    background-color: #333;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.loader-fill {
+    height: 15px;
+    width: 0%;
+    background-color: #7F77DD;
+    border-radius: 4px;
+    transition: width 0.1s ease;
+}
+
+.loader-percent {
+    color: #ffffff;
+    font-size: 14px;
+    margin-top: 6px;
+    letter-spacing: 2px;
+}
+
+.animate-left {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.animate-right {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.animate-bottom {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 1s ease;
+}
+
+.animate-left.show,
+.animate-right.show,
+.animate-bottom.show {
+    opacity: 1;
+    transform: translate(0);
 }
