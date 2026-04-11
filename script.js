@@ -79,3 +79,54 @@ function typeWriter() {
 
     setTimeout(typeWriter, isDeleting ? 80 : 120)
 }
+
+const canvas = document.getElementById('stars')
+const ctx = canvas.getContext('2d')
+canvas.width = window.innerWidth
+canvas.height = window.innerHeight
+
+const stars= []
+for (let i = 0; i < 200; i++) {
+    stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.5,
+        opacity: Math.random(),
+        speed: Math.random() * 0.02
+    })
+}
+
+function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    stars.forEach(star => {
+        star.opacity += star.speed
+        if (star.opacity > 1 || star.opacity < 0) star.speed *= -1
+
+        ctx.beginPath()
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`
+        ctx.fill()
+    })
+    requestAnimationFrame(drawStars)
+}
+
+drawStars()
+
+const sections = document.querySelectorAll('section')
+const navLinks = document.querySelectorAll('.nav-links a')
+
+window.addEventListener('scroll', () => {
+    sections.forEach(section => {
+        const top = section.offsetTop - 100
+        const bottom = top + section.offsetHeight
+
+        if (window.scrollY >= top && window.scrollY < bottom) {
+            navLinks.forEach(link => link.classList.remove('active'))
+            const id = section.getAttribute('id')
+            const activeLink = document.querySelector(`.nav-links a[href="#${id}"]`)
+            if (activeLink) activeLink.classList.add('active')
+        }
+    })
+})
+
+document.querySelector(`.nav-links a[href="#home"]`).classList.add('active')

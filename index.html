@@ -7,6 +7,22 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
+        <nav class="navbar">
+            <div class="nav-logo">Nick</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li class="dropdown">
+                    <a href="#projects">Projects ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Music Player</a></li>
+                        <li><a href="#">Python Projects</a></li>
+                    </ul>
+                </li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <canvas id="stars"></canvas>
         <div class="loader" id="loader">
             <div class="loader-content">
                 <p class="loader-welcome" id="loader-welcome"></p>
@@ -18,7 +34,7 @@
             </div>
         </div>
 
-        <section class="hero">
+        <section class="hero" id="home">
             <div class="hero-content">
                 <p class="hero-greeting animate-left">Hi, I'm</p>
                 <h1 class="hero-name animate-right">
@@ -27,6 +43,10 @@
                 <p class="hero-sub animate-bottom">Grade 11 from the Philippines and building my skills one project at a time.</p>
                 <a href="https://github.com/nickkcodes" class="hero-btn animate-bottom">View My Github</a>
             </div>
+        </section>
+
+        <section class="about" id="about">
+            
         </section>
 
         <script src="script.js"></script>
