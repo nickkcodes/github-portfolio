@@ -130,3 +130,23 @@ window.addEventListener('scroll', () => {
 })
 
 document.querySelector(`.nav-links a[href="#home"]`).classList.add('active')
+
+const skillsCanvas = document.getElementById('skillsCanvas');
+const sCtx = skillsCanvas.getContext('2d');
+
+const skills = [
+  { name: 'Python',     color: '#3572A5', icon: '🐍' },
+  { name: 'JavaScript', color: '#f7df1e', icon: '⚡' },
+  { name: 'HTML5',      color: '#e34c26', icon: '🌐' },
+  { name: 'CSS3',       color: '#1572b6', icon: '🎨' },
+  { name: 'React',      color: '#61DAFB', icon: '⚛' },
+  { name: 'Node.js',    color: '#68A063', icon: '🟢' },
+  { name: 'Git',        color: '#f05032', icon: '🔀' },
+  { name: 'VS Code',    color: '#007acc', icon: '💻' },
+  { name: 'Figma',      color: '#a259ff', icon: '🎭' },
+  { name: 'MySQL',      color: '#00758f', icon: '🗄' },
+  { name: 'C++',        color: '#f34b7d', icon: '⚙' },
+  { name: 'TypeScript', color: '#3178c6', icon: '📘' },
+  { name: 'Linux',      color: '#fcc624', icon: '🐧' },
+  { name: 'REST APIs',  color: '#7F77DD', icon: '🔌' },
+];
