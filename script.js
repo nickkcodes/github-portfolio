@@ -150,3 +150,53 @@ const skills = [
   { name: 'Linux',      color: '#fcc624', icon: '🐧' },
   { name: 'REST APIs',  color: '#7F77DD', icon: '🔌' },
 ];
+
+let sW, sH, sCx, sCy, sR;
+
+function sResize() {
+  const wrap = skillsCanvas.parentElement;
+  sW = skillsCanvas.width = wrap.clientWidth;
+  sH = skillsCanvas.height = wrap.clientHeight;
+  sCx = sW / 2; sCy = sH / 2;
+  sR = Math.min(sW, sH) * 0.28;
+}
+sResize();
+window.addEventListener('resize', sResize);
+
+const sPts = skills.map((s, i) => {
+  const phi = Math.acos(-1 + (2 * i) / skills.length);
+  const theta = Math.sqrt(skills.length * Math.PI) * phi;
+  return {
+    x: Math.sin(phi) * Math.cos(theta),
+    y: Math.sin(phi) * Math.sin(theta),
+    z: Math.cos(phi),
+    skill: s
+  };
+});
+
+let sRotX = 0.3, sRotY = 0;
+let sVelX = 0, sVelY = 0;
+let sDragging = false;
+let sLastMX = 0, sLastMY = 0;
+let sAutoRotate = true;
+
+function sRotatePoint(p) {
+  let { x, y, z } = p;
+  let y2 = y * Math.cos(sRotX) - z * Math.sin(sRotX);
+  let z2 = y * Math.sin(sRotX) + z * Math.cos(sRotX);
+  let x2 = x * Math.cos(sRotY) + z2 * Math.sin(sRotY);
+  let z3 = -x * Math.sin(sRotY) + z2 * Math.cos(sRotY);
+  return { x: x2, y: y2, z: z3 };
+}
+
+function sGetScreenPos(p) {
+  const r = sRotatePoint(p);
+  const perspective = 2.4;
+  const scale = perspective / (perspective + r.z + 1);
+  return {
+    sx: sCx + r.x * sR * scale,
+    sy: sCy + r.y * sR * scale,
+    depth: r.z,
+    scale
+  };
+}
