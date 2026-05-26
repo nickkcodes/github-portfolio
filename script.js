@@ -200,3 +200,135 @@ function sGetScreenPos(p) {
     scale
   };
 }
+
+function drawSkillsGlobe() {
+  sCtx.clearRect(0, 0, sW, sH);
+
+  const latLines = 9, lonLines = 14;
+  sCtx.strokeStyle = 'rgba(127,119,221,0.13)';
+  sCtx.lineWidth = 0.7;
+
+  for (let i = 0; i < latLines; i++) {
+    const phi = (Math.PI / latLines) * i;
+    sCtx.beginPath();
+    for (let j = 0; j <= 80; j++) {
+      const theta = (2 * Math.PI / 80) * j;
+      const raw = { x: Math.sin(phi) * Math.cos(theta), y: Math.cos(phi), z: Math.sin(phi) * Math.sin(theta) };
+      const { sx, sy } = sGetScreenPos(raw);
+      j === 0 ? sCtx.moveTo(sx, sy) : sCtx.lineTo(sx, sy);
+    }
+    sCtx.stroke();
+  }
+
+  for (let i = 0; i < lonLines; i++) {
+    const theta = (2 * Math.PI / lonLines) * i;
+    sCtx.beginPath();
+    for (let j = 0; j <= 80; j++) {
+      const phi = (Math.PI / 80) * j;
+      const raw = { x: Math.sin(phi) * Math.cos(theta), y: Math.cos(phi), z: Math.sin(phi) * Math.sin(theta) };
+      const { sx, sy } = sGetScreenPos(raw);
+      j === 0 ? sCtx.moveTo(sx, sy) : sCtx.lineTo(sx, sy);
+    }
+    sCtx.stroke();
+  }
+
+  const grd = sCtx.createRadialGradient(sCx, sCy, sR * 0.3, sCx, sCy, sR * 1.05);
+  grd.addColorStop(0, 'rgba(127,119,221,0.06)');
+  grd.addColorStop(0.6, 'rgba(50,40,100,0.10)');
+  grd.addColorStop(1, 'rgba(127,119,221,0.18)');
+  sCtx.beginPath();
+  sCtx.arc(sCx, sCy, sR, 0, Math.PI * 2);
+  sCtx.fillStyle = grd;
+  sCtx.fill();
+
+  const rendered = sPts.map(p => ({ ...sGetScreenPos(p), skill: p.skill }));
+  rendered.sort((a, b) => a.depth - b.depth);
+
+  for (const item of rendered) {
+    const { sx, sy, depth, skill, scale } = item;
+    const visible = depth > -0.85;
+    const alpha = visible ? Math.max(0.15, (depth + 1.2) / 2.1) : 0.07;
+    const sz = Math.max(8, scale * 36);
+
+    sCtx.beginPath();
+    sCtx.arc(sx, sy, sz * 0.22, 0, Math.PI * 2);
+    sCtx.fillStyle = skill.color + Math.round(alpha * 255).toString(16).padStart(2, '0');
+    sCtx.fill();
+
+    if (visible) {
+      sCtx.save();
+      sCtx.globalAlpha = alpha * 0.95;
+      sCtx.font = `${Math.max(10, sz * 0.85)}px serif`;
+      sCtx.textAlign = 'center';
+      sCtx.textBaseline = 'middle';
+      sCtx.fillText(skill.icon, sx, sy - sz * 0.9);
+      sCtx.restore();
+
+      const fontSize = Math.max(9, sz * 0.42);
+      sCtx.save();
+      sCtx.globalAlpha = alpha;
+      sCtx.font = `600 ${fontSize}px 'Segoe UI', sans-serif`;
+      sCtx.textAlign = 'center';
+      sCtx.textBaseline = 'top';
+      sCtx.fillStyle = depth > 0.1 ? '#ffffff' : '#aaa8cc';
+      sCtx.fillText(skill.name, sx, sy + sz * 0.16);
+      sCtx.restore();
+    }
+  }
+}
+
+function skillsLoop() {
+  if (!sDragging && sAutoRotate) {
+    sRotY += 0.004;
+    sRotX += 0.0008;
+  } else if (!sDragging) {
+    sRotY += sVelY * 0.92;
+    sRotX += sVelX * 0.92;
+    sVelY *= 0.92;
+    sVelX *= 0.92;
+  }
+  drawSkillsGlobe();
+  requestAnimationFrame(skillsLoop);
+}
+
+skillsLoop();
+
+function sGetXY(e) {
+  const rect = skillsCanvas.getBoundingClientRect();
+  const src = e.touches ? e.touches[0] : e;
+  return { mx: src.clientX - rect.left, my: src.clientY - rect.top };
+}
+
+skillsCanvas.addEventListener('mousedown', e => {
+  sDragging = true; sAutoRotate = false;
+  const { mx, my } = sGetXY(e);
+  sLastMX = mx; sLastMY = my;
+  sVelX = sVelY = 0;
+});
+skillsCanvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  sDragging = true; sAutoRotate = false;
+  const { mx, my } = sGetXY(e);
+  sLastMX = mx; sLastMY = my;
+  sVelX = sVelY = 0;
+}, { passive: false });
+
+function sOnMove(e) {
+  if (!sDragging) return;
+  const { mx, my } = sGetXY(e);
+  sVelY = (mx - sLastMX) * 0.008;
+  sVelX = (my - sLastMY) * 0.008;
+  sRotY += sVelY;
+  sRotX += sVelX;
+  sLastMX = mx; sLastMY = my;
+}
+skillsCanvas.addEventListener('mousemove', sOnMove);
+skillsCanvas.addEventListener('touchmove', e => { e.preventDefault(); sOnMove(e); }, { passive: false });
+
+function sOnUp() {
+  sDragging = false;
+  setTimeout(() => { if (!sDragging) sAutoRotate = true; }, 2000);
+}
+skillsCanvas.addEventListener('mouseup', sOnUp);
+skillsCanvas.addEventListener('touchend', sOnUp);
+window.addEventListener('mouseup', sOnUp);
