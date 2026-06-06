@@ -298,3 +298,28 @@ body {
     font-size: 12px;
     letter-spacing: 1px;
 }
+
+.about  {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px;
+}
+
+.about-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+
+.about-gear { color: #e85d2f; font-size: 22px; }
+
+.about-title {
+    font-family: 'Courier New', monospace;
+    font-size: 28px;
+    font-weight: 600;
+    color: #e0ddf5;
+    letter-spacing: 1px;
+}
