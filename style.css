@@ -323,3 +323,19 @@ body {
     color: #e0ddf5;
     letter-spacing: 1px;
 }
+
+.about-title span { color: #7F77DD; }
+
+.about-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.about-terminal {
+    background: #111114;
+    border: 1px solid #2a2a35;
+    border-radius: 10px;
+    overflow: hidden;
+}
