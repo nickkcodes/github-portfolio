@@ -339,3 +339,23 @@ body {
     border-radius: 10px;
     overflow: hidden;
 }
+
+.about-term-bar {
+    background: #1a1a22;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #2a2a35;
+}
+
+.about-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot-r { background: #ff5f57; }
+.dot-y { background: #febc2e; }
+.dot-g { background: #28c840; }
