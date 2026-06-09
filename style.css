@@ -359,3 +359,17 @@ body {
 .dot-r { background: #ff5f57; }
 .dot-y { background: #febc2e; }
 .dot-g { background: #28c840; }
+
+.about-term-title {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #555;
+    margin-left: 8px;
+}
+
+.about-term-body {
+    padding: 22px 24px;
+    font-family: 'Courier New', monospace;
+    font-size: 13.5px;
+    line-height: 2;
+}
