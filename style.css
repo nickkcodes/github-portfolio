@@ -373,3 +373,11 @@ body {
     font-size: 13.5px;
     line-height: 2;
 }
+
+.t-prompt { color: #7F77DD; }
+.t-cmd    { color: #e0ddf5; }
+.t-key    { color: #7F77DD; }
+.t-val    { color: #a8d8a8; }
+.t-str    { color: #f5c97a; }
+.t-colon  { color: #555; }
+.t-brace  { color: #333; }
