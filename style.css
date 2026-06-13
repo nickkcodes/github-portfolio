@@ -411,3 +411,69 @@ body {
     border-radius: 10px;
     padding: 22px 24px;
 }
+
+.stat-label {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: #555;
+    font-weight: 600;
+    color: #7F77DD;
+    margin-bottom: 6px;
+}
+
+.stat-big {
+    font-family: 'Courier New', monospace;
+    font-size: 28px;
+    font-weight: 600;
+    color: #7F77DD;
+    margin-bottom: 4px;
+}
+
+.stat-sub { font-size: 13px; color: #666; line-height: 1.5; }
+
+.about-goals {
+    background: #111114;
+    border: 1px solid #2a2a35;
+    border-radius: 10px;
+    padding: 22px 24px;
+}
+
+.goals-label {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+}
+
+.goal-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: #aaa;
+    line-height: 1.5;
+}
+
+.goal-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: #aaa;
+    line-height: 1.5;
+}
+
+.goal-arrow {
+    color: #7F77FF;
+    font-family: 'Courier New', monospace;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .about { padding: 60px 24px; }
+    .about-layout { grid-template-columns: 1fr; }
+    .about-stats-grid { grid-template-columns: 1fr 1fr; }
+}
