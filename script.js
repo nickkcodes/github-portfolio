@@ -133,202 +133,99 @@ document.querySelector(`.nav-links a[href="#home"]`).classList.add('active')
 
 const skillsCanvas = document.getElementById('skillsCanvas');
 const sCtx = skillsCanvas.getContext('2d');
+(()=>{
+const cv=document.getElementById('skillsCanvas'),g=cv.getContext('2d');
+let W,H,cx,cy,R;
+const rsz=()=>{const p=cv.parentElement;W=cv.width=p.clientWidth;H=cv.height=p.clientHeight;cx=W/2;cy=H/2;R=Math.min(W,H)*0.27;};
+rsz();window.addEventListener('resize',rsz);
 
-const skills = [
-  { name: 'Python',     color: '#3572A5', icon: '🐍' },
-  { name: 'JavaScript', color: '#f7df1e', icon: '⚡' },
-  { name: 'HTML5',      color: '#e34c26', icon: '🌐' },
-  { name: 'CSS3',       color: '#1572b6', icon: '🎨' },
-  { name: 'React',      color: '#61DAFB', icon: '⚛' },
-  { name: 'Node.js',    color: '#68A063', icon: '🟢' },
-  { name: 'Git',        color: '#f05032', icon: '🔀' },
-  { name: 'VS Code',    color: '#007acc', icon: '💻' },
-  { name: 'Figma',      color: '#a259ff', icon: '🎭' },
-  { name: 'MySQL',      color: '#00758f', icon: '🗄' },
-  { name: 'C++',        color: '#f34b7d', icon: '⚙' },
-  { name: 'TypeScript', color: '#3178c6', icon: '📘' },
-  { name: 'Linux',      color: '#fcc624', icon: '🐧' },
-  { name: 'REST APIs',  color: '#7F77DD', icon: '🔌' },
+const SK=[
+  {n:'HTML5',c:'#e34c26',u:'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg'},
+  {n:'CSS3',c:'#264de4',u:'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg'},
+  {n:'JavaScript',c:'#f7df1e',u:'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg'},
+  {n:'Python',c:'#4B8BBE',u:'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg'},
+  {n:'React',c:'#61DAFB',u:'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg'},
+  {n:'Node.js',c:'#68A063',u:'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg'},
+  {n:'Git',c:'#f05032',u:'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg'},
+  {n:'TypeScript',c:'#3178c6',u:'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg'},
+  {n:'MySQL',c:'#00adef',u:'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg'},
+  {n:'VS Code',c:'#007acc',u:'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg'},
+  {n:'Linux',c:'#fcc624',u:'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg'},
+  {n:'Figma',c:'#a259ff',u:'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg'},
+  {n:'C++',c:'#00599C',u:'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg'},
 ];
 
-let sW, sH, sCx, sCy, sR;
+const IM={};
+SK.forEach(s=>{const i=new Image();i.crossOrigin='anonymous';i.src=s.u;IM[s.n]=i;});
 
-function sResize() {
-  const wrap = skillsCanvas.parentElement;
-  sW = skillsCanvas.width = wrap.clientWidth;
-  sH = skillsCanvas.height = wrap.clientHeight;
-  sCx = sW / 2; sCy = sH / 2;
-  sR = Math.min(sW, sH) * 0.28;
+const nrm=v=>{const l=Math.hypot(...v);return v.map(x=>x/l);};
+const mdp=(a,b)=>nrm([(a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2]);
+
+const PHI=(1+Math.sqrt(5))/2;
+let V=[[-1,PHI,0],[1,PHI,0],[-1,-PHI,0],[1,-PHI,0],[0,-1,PHI],[0,1,PHI],[0,-1,-PHI],[0,1,-PHI],[PHI,0,-1],[PHI,0,1],[-PHI,0,-1],[-PHI,0,1]].map(v=>nrm(v));
+let F=[[0,11,5],[0,5,1],[0,1,7],[0,7,10],[0,10,11],[1,5,9],[5,11,4],[11,10,2],[10,7,6],[7,1,8],[3,9,4],[3,4,2],[3,2,6],[3,6,8],[3,8,9],[4,9,5],[2,4,11],[6,2,10],[8,6,7],[9,8,1]];
+
+for(let it=0;it<2;it++){
+  const nF=[],mc={};
+  const gm=(i,j)=>{const k=Math.min(i,j)+'_'+Math.max(i,j);if(!(k in mc)){V.push(mdp(V[i],V[j]));mc[k]=V.length-1;}return mc[k];};
+  F.forEach(([a,b,c])=>{const ab=gm(a,b),bc=gm(b,c),ca=gm(c,a);nF.push([a,ab,ca],[b,bc,ab],[c,ca,bc],[ab,bc,ca]);});
+  F=nF;
 }
-sResize();
-window.addEventListener('resize', sResize);
 
-const sPts = skills.map((s, i) => {
-  const phi = Math.acos(-1 + (2 * i) / skills.length);
-  const theta = Math.sqrt(skills.length * Math.PI) * phi;
-  return {
-    x: Math.sin(phi) * Math.cos(theta),
-    y: Math.sin(phi) * Math.sin(theta),
-    z: Math.cos(phi),
-    skill: s
-  };
+const SP=SK.map((s,i)=>{
+  const p=Math.acos(-1+(2*i)/SK.length),t=Math.sqrt(SK.length*Math.PI)*p;
+  return{x:Math.sin(p)*Math.cos(t),y:Math.sin(p)*Math.sin(t),z:Math.cos(p),s};
 });
 
-let sRotX = 0.3, sRotY = 0;
-let sVelX = 0, sVelY = 0;
-let sDragging = false;
-let sLastMX = 0, sLastMY = 0;
-let sAutoRotate = true;
+let rX=0.42,rY=0.2,vX=0,vY=0,drag=false,lX=0,lY=0,auto=true;
 
-function sRotatePoint(p) {
-  let { x, y, z } = p;
-  let y2 = y * Math.cos(sRotX) - z * Math.sin(sRotX);
-  let z2 = y * Math.sin(sRotX) + z * Math.cos(sRotX);
-  let x2 = x * Math.cos(sRotY) + z2 * Math.sin(sRotY);
-  let z3 = -x * Math.sin(sRotY) + z2 * Math.cos(sRotY);
-  return { x: x2, y: y2, z: z3 };
-}
+const rv=(v,rx,ry)=>{let[x,y,z]=v;const y2=y*Math.cos(rx)-z*Math.sin(rx),z2=y*Math.sin(rx)+z*Math.cos(rx);return[x*Math.cos(ry)+z2*Math.sin(ry),y2,-x*Math.sin(ry)+z2*Math.cos(ry)];};
+const pj=v=>{const[x,y,z]=rv(v,rX,rY),d=3.5,sc=d/(d-z);return{sx:cx+x*R*sc,sy:cy+y*R*sc,z,sc};};
 
-function sGetScreenPos(p) {
-  const r = sRotatePoint(p);
-  const perspective = 2.4;
-  const scale = perspective / (perspective + r.z + 1);
-  return {
-    sx: sCx + r.x * sR * scale,
-    sy: sCy + r.y * sR * scale,
-    depth: r.z,
-    scale
-  };
-}
+const draw=()=>{
+  g.clearRect(0,0,W,H);
 
-function drawSkillsGlobe() {
-  sCtx.clearRect(0, 0, sW, sH);
+  F.map(([a,b,c])=>{const ra=rv(V[a],rX,rY),rb=rv(V[b],rX,rY),rc=rv(V[c],rX,rY),dz=(ra[2]+rb[2]+rc[2])/3;return{pa:pj(V[a]),pb:pj(V[b]),pc:pj(V[c]),dz};})
+  .sort((a,b)=>a.dz-b.dz)
+  .forEach(({pa,pb,pc,dz})=>{
+    const t=Math.max(0,(dz+1)/2);
+    g.beginPath();g.moveTo(pa.sx,pa.sy);g.lineTo(pb.sx,pb.sy);g.lineTo(pc.sx,pc.sy);g.closePath();
+    g.fillStyle=`rgba(20,14,50,${t*0.55})`;g.fill();
+    g.strokeStyle=`rgba(127,119,221,${t*0.45})`;g.lineWidth=0.55;g.stroke();
+  });
 
-  const latLines = 9, lonLines = 14;
-  sCtx.strokeStyle = 'rgba(127,119,221,0.13)';
-  sCtx.lineWidth = 0.7;
+  const atm=g.createRadialGradient(cx,cy,R*0.72,cx,cy,R*1.22);
+  atm.addColorStop(1,'rgba(127,119,221,0.18)');atm.addColorStop(0.78,'rgba(105,42,22,0.07)');atm.addColorStop(1,'rgba(155,58,30,0.24)');
+  g.beginPath();g.arc(cx,cy,R*1.22,0,Math.PI*2);g.fillStyle=atm;g.fill();
 
-  for (let i = 0; i < latLines; i++) {
-    const phi = (Math.PI / latLines) * i;
-    sCtx.beginPath();
-    for (let j = 0; j <= 80; j++) {
-      const theta = (2 * Math.PI / 80) * j;
-      const raw = { x: Math.sin(phi) * Math.cos(theta), y: Math.cos(phi), z: Math.sin(phi) * Math.sin(theta) };
-      const { sx, sy } = sGetScreenPos(raw);
-      j === 0 ? sCtx.moveTo(sx, sy) : sCtx.lineTo(sx, sy);
-    }
-    sCtx.stroke();
-  }
+  SP.map(p=>{const r=pj([p.x,p.y,p.z]);return{...r,s:p.s};}).sort((a,b)=>a.z-b.z).forEach(({sx,sy,z,sc,s})=>{
+    const al=Math.max(0.1,Math.min(1,(z+1.6)/2.6));
+    const isz=Math.max(14,sc*48);
+    const im=IM[s.n],ok=im&&im.complete&&im.naturalWidth>0;
 
-  for (let i = 0; i < lonLines; i++) {
-    const theta = (2 * Math.PI / lonLines) * i;
-    sCtx.beginPath();
-    for (let j = 0; j <= 80; j++) {
-      const phi = (Math.PI / 80) * j;
-      const raw = { x: Math.sin(phi) * Math.cos(theta), y: Math.cos(phi), z: Math.sin(phi) * Math.sin(theta) };
-      const { sx, sy } = sGetScreenPos(raw);
-      j === 0 ? sCtx.moveTo(sx, sy) : sCtx.lineTo(sx, sy);
-    }
-    sCtx.stroke();
-  }
+    if(z>0.12){g.save();g.globalAlpha=al*0.4;g.shadowColor=s.c;g.shadowBlur=18*sc;g.beginPath();g.arc(sx,sy-isz*0.6,isz*0.38,0,Math.PI*2);g.fillStyle=s.c+'15';g.fill();g.shadowBlur=0;g.restore();}
 
-  const grd = sCtx.createRadialGradient(sCx, sCy, sR * 0.3, sCx, sCy, sR * 1.05);
-  grd.addColorStop(0, 'rgba(127,119,221,0.06)');
-  grd.addColorStop(0.6, 'rgba(50,40,100,0.10)');
-  grd.addColorStop(1, 'rgba(127,119,221,0.18)');
-  sCtx.beginPath();
-  sCtx.arc(sCx, sCy, sR, 0, Math.PI * 2);
-  sCtx.fillStyle = grd;
-  sCtx.fill();
+    g.save();g.globalAlpha=al;
+    if(ok){if(z>0){g.shadowColor=s.c;g.shadowBlur=9*sc;}g.drawImage(im,sx-isz/2,sy-isz*1.1,isz,isz);g.shadowBlur=0;}
+    else{g.beginPath();g.arc(sx,sy-isz*0.58,isz*0.44,0,Math.PI*2);g.fillStyle=s.c+'cc';g.fill();g.font=`bold ${Math.round(isz*0.38)}px monospace`;g.textAlign='center';g.textBaseline='middle';g.fillStyle='#fff';g.fillText(s.n[0],sx,sy-isz*0.58);}
+    g.restore();
 
-  const rendered = sPts.map(p => ({ ...sGetScreenPos(p), skill: p.skill }));
-  rendered.sort((a, b) => a.depth - b.depth);
+    if(z>-0.32){const fs=Math.max(9,Math.round(sc*13));g.save();g.globalAlpha=al*0.92;g.font=`600 ${fs}px 'Segoe UI',sans-serif`;g.textAlign='center';g.textBaseline='top';g.shadowColor='rgba(0,0,0,0.95)';g.shadowBlur=5;g.fillStyle='#ffffff';g.fillText(s.n,sx,sy+isz*0.06);g.shadowBlur=0;g.restore();}
+  });
+};
 
-  for (const item of rendered) {
-    const { sx, sy, depth, skill, scale } = item;
-    const visible = depth > -0.85;
-    const alpha = visible ? Math.max(0.15, (depth + 1.2) / 2.1) : 0.07;
-    const sz = Math.max(8, scale * 36);
+const loop=()=>{
+  if(!drag&&auto){rY+=0.0045;rX+=0.0005;}
+  else if(!drag){rY+=vY;rX+=vX;vY*=0.94;vX*=0.94;if(Math.abs(vX)<0.0002&&Math.abs(vY)<0.0002)auto=true;}
+  draw();requestAnimationFrame(loop);
+};
+loop();
 
-    sCtx.beginPath();
-    sCtx.arc(sx, sy, sz * 0.22, 0, Math.PI * 2);
-    sCtx.fillStyle = skill.color + Math.round(alpha * 255).toString(16).padStart(2, '0');
-    sCtx.fill();
-
-    if (visible) {
-      sCtx.save();
-      sCtx.globalAlpha = alpha * 0.95;
-      sCtx.font = `${Math.max(10, sz * 0.85)}px serif`;
-      sCtx.textAlign = 'center';
-      sCtx.textBaseline = 'middle';
-      sCtx.fillText(skill.icon, sx, sy - sz * 0.9);
-      sCtx.restore();
-
-      const fontSize = Math.max(9, sz * 0.42);
-      sCtx.save();
-      sCtx.globalAlpha = alpha;
-      sCtx.font = `600 ${fontSize}px 'Segoe UI', sans-serif`;
-      sCtx.textAlign = 'center';
-      sCtx.textBaseline = 'top';
-      sCtx.fillStyle = depth > 0.1 ? '#ffffff' : '#aaa8cc';
-      sCtx.fillText(skill.name, sx, sy + sz * 0.16);
-      sCtx.restore();
-    }
-  }
-}
-
-function skillsLoop() {
-  if (!sDragging && sAutoRotate) {
-    sRotY += 0.004;
-    sRotX += 0.0008;
-  } else if (!sDragging) {
-    sRotY += sVelY * 0.92;
-    sRotX += sVelX * 0.92;
-    sVelY *= 0.92;
-    sVelX *= 0.92;
-  }
-  drawSkillsGlobe();
-  requestAnimationFrame(skillsLoop);
-}
-
-skillsLoop();
-
-function sGetXY(e) {
-  const rect = skillsCanvas.getBoundingClientRect();
-  const src = e.touches ? e.touches[0] : e;
-  return { mx: src.clientX - rect.left, my: src.clientY - rect.top };
-}
-
-skillsCanvas.addEventListener('mousedown', e => {
-  sDragging = true; sAutoRotate = false;
-  const { mx, my } = sGetXY(e);
-  sLastMX = mx; sLastMY = my;
-  sVelX = sVelY = 0;
-});
-skillsCanvas.addEventListener('touchstart', e => {
-  e.preventDefault();
-  sDragging = true; sAutoRotate = false;
-  const { mx, my } = sGetXY(e);
-  sLastMX = mx; sLastMY = my;
-  sVelX = sVelY = 0;
-}, { passive: false });
-
-function sOnMove(e) {
-  if (!sDragging) return;
-  const { mx, my } = sGetXY(e);
-  sVelY = (mx - sLastMX) * 0.008;
-  sVelX = (my - sLastMY) * 0.008;
-  sRotY += sVelY;
-  sRotX += sVelX;
-  sLastMX = mx; sLastMY = my;
-}
-skillsCanvas.addEventListener('mousemove', sOnMove);
-skillsCanvas.addEventListener('touchmove', e => { e.preventDefault(); sOnMove(e); }, { passive: false });
-
-function sOnUp() {
-  sDragging = false;
-  setTimeout(() => { if (!sDragging) sAutoRotate = true; }, 2000);
-}
-skillsCanvas.addEventListener('mouseup', sOnUp);
-skillsCanvas.addEventListener('touchend', sOnUp);
-window.addEventListener('mouseup', sOnUp);
+const gp=e=>{const r=cv.getBoundingClientRect(),src=e.touches?e.touches[0]:e;return{mx:src.clientX-r.left,my:src.clientY-r.top};};
+cv.addEventListener('mousedown',e=>{drag=true;auto=false;const{mx,my}=gp(e);lX=mx;lY=my;vX=vY=0;});
+cv.addEventListener('touchstart',e=>{e.preventDefault();drag=true;auto=false;const{mx,my}=gp(e);lX=mx;lY=my;},{passive:false});
+const onM=e=>{if(!drag)return;const{mx,my}=gp(e);vY=(mx-lX)*0.007;vX=(my-lY)*0.007;rY+=vY;rX+=vX;lX=mx;lY=my;};
+cv.addEventListener('mousemove',onM);cv.addEventListener('touchmove',e=>{e.preventDefault();onM(e);},{passive:false});
+const onU=()=>{drag=false;setTimeout(()=>{if(!drag)auto=true;},2200);};
+cv.addEventListener('mouseup',onU);cv.addEventListener('touchend',onU);window.addEventListener('mouseup',onU);
+})();
