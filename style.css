@@ -259,7 +259,7 @@ body {
     padding: 0 60px 20px;
 }
 
-.skills-icon { font-size: 22px; color: #e85d2f; }
+.skills-icon { font-size: 22px; color: #505050; }
 
 .skills-title {
     font-family: 'Courier New', monospace;
@@ -314,7 +314,7 @@ body {
     margin-bottom: 50px;
 }
 
-.about-gear { color: #e85d2f; font-size: 22px; }
+.about-gear { color: #505050; font-size: 22px; }
 
 .about-title {
     font-family: 'Courier New', monospace;
