@@ -553,4 +553,19 @@ body {
     position: absolute;
     top: 14px;
     right: 14px;
+    
+}
+
+.proj-music-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.music-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    height: 65px;
 }
