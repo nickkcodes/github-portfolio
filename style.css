@@ -569,3 +569,16 @@ body {
     gap: 5px;
     height: 65px;
 }
+
+.bar {
+    display: block;
+    width: 7px;
+    background: #7F77DD;
+    border-radius: 3px;
+    animation: bar-bounce var(--d) ease-in-out infinite alternate;
+}
+
+@keyframes bar-bounce {
+    from { height: 8px; }
+    to   { height: var(--h); }
+}
