@@ -582,3 +582,10 @@ body {
     from { height: 8px; }
     to   { height: var(--h); }
 }
+
+.music-label {
+    color: #555;
+    font-size: 11px;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+}
