@@ -589,3 +589,14 @@ body {
     font-family: 'Courier New', monospace;
     letter-spacing: 2px;
 }
+
+.proj-code-visual {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.9;
+    padding: 20px 24px;
+    width: 100%;
+    color: #ccc;
+}
