@@ -607,3 +607,12 @@ body {
 .code-str     { color: #f5c97a; }
 .code-num     { color: #b5cea8; }
 .code-prompt  { color: #555; margin-top: 6px; }
+
+.proj-body { padding: 24px; }
+
+.proj-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+}
