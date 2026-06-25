@@ -616,3 +616,10 @@ body {
     color: #fff;
     margin-bottom: 4px;
 }
+
+.proj-type {
+    font-size: 12px;
+    color: #7F77DD;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 12px;
+}
