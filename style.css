@@ -623,3 +623,10 @@ body {
     font-family: 'Courier New', monospace;
     margin-bottom: 12px;
 }
+
+.proj-desc {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
