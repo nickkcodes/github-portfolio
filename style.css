@@ -630,3 +630,10 @@ body {
     line-height: 1.7;
     margin-bottom: 16px;
 }
+
+.proj-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 20px;
+}
