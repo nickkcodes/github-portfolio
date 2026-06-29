@@ -647,3 +647,9 @@ body {
     border-radius: 99px;
     font-family: 'Courier New', monospace;
 }
+
+.proj-btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
