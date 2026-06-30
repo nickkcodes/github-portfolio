@@ -653,3 +653,9 @@ body {
     gap: 10px;
     flex-wrap: wrap;
 }
+
+.proj-btn-demo {
+    background: #7F77DD;
+    color: #111;
+    font-size: 13px;
+    font-weight: 600;
