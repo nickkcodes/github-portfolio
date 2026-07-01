@@ -659,3 +659,8 @@ body {
     color: #111;
     font-size: 13px;
     font-weight: 600;
+        padding: 9px 22px;
+    border-radius: 99px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
