@@ -664,3 +664,5 @@ body {
     text-decoration: none;
     transition: background 0.2s;
 }
+
+.proj-btn-demo:hover { background: #6b67c9; }
