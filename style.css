@@ -666,3 +666,9 @@ body {
 }
 
 .proj-btn-demo:hover { background: #6b67c9; }
+
+.proj-btn-gh {
+    background: transparent;
+    color: #aaa;
+    font-size: 13px;
+    padding: 8px 20px;
